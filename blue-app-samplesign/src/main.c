@@ -451,7 +451,7 @@ void sample_main(void) {
                     os_memmove(&privateKey, &N_privateKey,
                                sizeof(cx_ecfp_private_key_t));
                     cx_ecfp_generate_pair(CX_CURVE_256K1, &publicKey,
-                                          &privateKey, 1);
+                                          &N_privateKey, 1);
                     os_memmove(G_io_apdu_buffer, publicKey.W, 65);
                     tx = 65;
                     THROW(0x9000);
@@ -636,11 +636,11 @@ __attribute__((section(".boot"))) int main(void) {
 
                 cx_ecfp_public_key_t publicKey;
 
-                cx_ecfp_init_private_key(CX_CURVE_256K1, &privateKeyTest, sizeof(privateKey), &privateKey);
+                cx_ecfp_init_private_key(CX_CURVE_256K1, privateKeyTest, sizeof(privateKey), &privateKey);
+
+                cx_ecfp_generate_pair(CX_CURVE_256K1, &publicKey, &privateKey,
+                                      0);
                 nvm_write(&N_privateKey, &privateKey, sizeof(privateKey));
-//                cx_ecfp_generate_pair(CX_CURVE_256K1, &publicKey, &privateKey,
-//                                      0);
-                
                 canary = 0x01;
                 nvm_write(&N_initialized, &canary, sizeof(canary));
             }
