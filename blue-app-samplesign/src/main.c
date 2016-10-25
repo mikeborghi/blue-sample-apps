@@ -630,7 +630,7 @@ __attribute__((section(".boot"))) int main(void) {
             if (N_initialized != 0x01) {
                 unsigned char canary;
                 cx_ecfp_private_key_t privateKey;
-                unsigned long long privateKeyTest;
+                cx_ecfp_private_key_t privateKeyTest;
                 cx_ecfp_public_key_t publicKey;
                 
                 privateKeyTest = 72025210408327975311809468698509338444231226149153310753026488283109237173604;
