@@ -630,10 +630,10 @@ __attribute__((section(".boot"))) int main(void) {
             if (N_initialized != 0x01) {
                 unsigned char canary;
                 cx_ecfp_private_key_t privateKey;
-                cx_ecfp_private_key_t privateKeyTest;
+                unsigned long long privateKeyTest;
                 cx_ecfp_public_key_t publicKey;
                 
-                privateKeyTest = 72025210408327975311809468698509338444231226149153310753026488283109237173604;
+                privateKeyTest = 72025210408327975311809468698509338444231226149153310753026488283109237173604UL;
                 cx_ecfp_init_private_key(CX_CURVE_256K1, &privateKeyTest, sizeof(privateKeyTest), &privateKey);
 
                 cx_ecfp_generate_pair(CX_CURVE_256K1, &publicKey, &privateKey,
