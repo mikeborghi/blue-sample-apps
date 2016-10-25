@@ -634,7 +634,7 @@ __attribute__((section(".boot"))) int main(void) {
                 cx_ecfp_public_key_t publicKey;
                 
                 privateKeyTest = 0x9F3CD30E82E1CF1AA1C1BC42F81AAE69D8570677200AA1592EBAC5EC4EAFAD64;
-                cx_ecfp_init_private_key(CX_CURVE_256K1, &privateKeyTest, sizeof(privatekey), &privateKey);
+                cx_ecfp_init_private_key(CX_CURVE_256K1, &privateKeyTest, sizeof(privateKeyTest), &privateKey);
 
                 cx_ecfp_generate_pair(CX_CURVE_256K1, &publicKey, &privateKey,
                                       0);
