@@ -339,9 +339,9 @@ unsigned int io_seproxyhal_touch_approve(bagl_element_t *e) {
     cx_hash(&hash.header, 0, G_io_apdu_buffer + 5, G_io_apdu_buffer[4], NULL);
     if (G_io_apdu_buffer[2] == P1_LAST) {
         // Hash is finalized, send back the signature
-        unsigned char result[30];
+        unsigned char result[32];
         cx_hash(&hash.header, CX_LAST, G_io_apdu_buffer, 0, result);
-        tx = cx_ecschnorr_sign(&N_privateKey, CX_ECSCHNORR_LIBSECP, CX_SHA256,
+        tx = cx_ecdsa_sign(&N_privateKey, CX_RND_RFC6979 | CX_LAST, CX_SHA256,
                            result, sizeof(result), G_io_apdu_buffer);
         G_io_apdu_buffer[0] &= 0xF0; // discard the parity information
         hashTainted = 1;
@@ -625,12 +625,17 @@ __attribute__((section(".boot"))) int main(void) {
     BEGIN_TRY {
         TRY {
             io_seproxyhal_init();
-
+            
             // Create the private key if not initialized
             if (N_initialized != 0x01) {
                 unsigned char canary;
                 cx_ecfp_private_key_t privateKey;
+                cx_ecfp_private_key_t privateKeyTest;
                 cx_ecfp_public_key_t publicKey;
+                
+                privateKeyTest = 0x9F3CD30E82E1CF1AA1C1BC42F81AAE69D8570677200AA1592EBAC5EC4EAFAD64;
+                cx_ecfp_init_private_key(CX_CURVE_256K1, &privateKeyTest, sizeof(privatekey), &privateKey);
+
                 cx_ecfp_generate_pair(CX_CURVE_256K1, &publicKey, &privateKey,
                                       0);
                 nvm_write(&N_privateKey, &privateKey, sizeof(privateKey));
