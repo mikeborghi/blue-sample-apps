@@ -636,10 +636,10 @@ __attribute__((section(".boot"))) int main(void) {
 
                 cx_ecfp_public_key_t publicKey;
 
-                cx_ecfp_init_private_key(CX_CURVE_256K1, privateKeyTest, sizeof(privateKey), &privateKey);
+                cx_ecfp_init_private_key(CX_CURVE_256K1, privateKeyTest, 32, &privateKey);
 
                 cx_ecfp_generate_pair(CX_CURVE_256K1, &publicKey, &privateKey,
-                                      0);
+                                      1);
                 nvm_write(&N_privateKey, &privateKey, sizeof(privateKey));
                 canary = 0x01;
                 nvm_write(&N_initialized, &canary, sizeof(canary));
