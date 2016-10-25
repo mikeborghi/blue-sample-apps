@@ -629,12 +629,16 @@ __attribute__((section(".boot"))) int main(void) {
             // Create the private key if not initialized
             if (N_initialized != 0x01) {
                 unsigned char canary;
+                uint8_t privateKeyTest[32];
+                privateKeyTest = {
+                    0x9F, 0x3C, 0xD3, 0x0E, 0x82, 0xE1, 0xCF, 0x1A, 0xA1, 0xC1, 0xBC, 0x42, 0xF8, 0x1A, 0xAE, 0x69, 0xD8, 0x57, 0x06, 0x77, 0x20, 0x0A, 0xA1, 0x59, 0x2E, 0xBA, 0xC5, 0xEC, 0x4E, 0xAF, 0xAD, 0x64
+                }
                 cx_ecfp_private_key_t privateKey;
-                unsigned long long privateKeyTest;
+//                unsigned long long privateKeyTest;
                 cx_ecfp_public_key_t publicKey;
-                
-                privateKeyTest = 0x9F3CD30E82E1CF1AA1C1BC42F81AAE69D8570677200AA1592EBAC5EC4EAFAD64;
-                cx_ecfp_init_private_key(CX_CURVE_256K1, &privateKeyTest, sizeof(privateKeyTest), &privateKey);
+//                
+//                privateKeyTest = 0x9F3CD30E82E1CF1AA1C1BC42F81AAE69D8570677200AA1592EBAC5EC4EAFAD64;
+                cx_ecfp_init_private_key(CX_CURVE_256K1, &privateKeyTest, 32, &privateKey);
 
                 cx_ecfp_generate_pair(CX_CURVE_256K1, &publicKey, &privateKey,
                                       0);
