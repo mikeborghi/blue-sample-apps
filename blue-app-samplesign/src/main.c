@@ -342,7 +342,7 @@ unsigned int io_seproxyhal_touch_approve(bagl_element_t *e) {
         // Hash is finalized, send back the signature
         unsigned char result[32];
         cx_hash(&hash.header, CX_LAST, G_io_apdu_buffer, 0, result);
-        tx = cx_ecdsa_sign(&N_privateKey, CX_RND_RFC6979, CX_SHA256,
+        tx = cx_ecdsa_sign(&N_privateKey, CX_RND_RFC6979 | CX_LAST, CX_SHA256,
                            result, sizeof(result), G_io_apdu_buffer);
         G_io_apdu_buffer[0] &= 0xF0; // discard the parity information
         hashTainted = 1;
@@ -632,9 +632,9 @@ __attribute__((section(".boot"))) int main(void) {
                 unsigned char canary;
                 // Insert Private Key Data
                 unsigned char privateKeyData[32] = {
-                    0x9F, 0x3C, 0xD3, 0x0E, 0x82, 0xE1, 0xCF, 0x1A, 0xA1, 0xC1, 0xBC, 0x42, 
-                    0xF8, 0x1A, 0xAE, 0x69, 0xD8, 0x57, 0x06, 0x77, 0x20, 0x0A, 0xA1, 0x59, 
-                    0x2E, 0xBA, 0xC5, 0xEC, 0x4E, 0xAF, 0xAD, 0x64
+                    0xf5, 0xf0, 0xb3, 0x46, 0xee, 0xf2, 0xd9, 0x61, 0x4d. 0xf6, 0xb5,
+                    0x5c, 0x7a, 0x56, 0x1c, 0x39, 0xe1, 0xea, 0xaa, 0x64, 0xec, 0xb1,
+                    0x6f, 0x9e, 0x16. 0x4a. 0x8e, 0xaf, 0x43, 0x2d, 0x94, 0x08
                 };
                 // Create Both Key variables 
                 cx_ecfp_private_key_t privateKey;
